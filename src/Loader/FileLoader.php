@@ -2,48 +2,39 @@
 
 namespace BenTools\ETL\Loader;
 
-use BenTools\ETL\Context\ContextElementInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use SplFileObject;
 
-class FileLoader implements LoaderInterface, LoggerAwareInterface
+final class FileLoader implements LoaderInterface
 {
 
-    use LoggerAwareTrait;
-
     /**
-     * @var \SplFileObject
+     * @var SplFileObject
      */
     protected $file;
 
     /**
      * FileLoader constructor.
      *
-     * @param \SplFileObject  $file
-     * @param LoggerInterface $logger
+     * @param SplFileObject  $file
      */
-    public function __construct(\SplFileObject $file, LoggerInterface $logger = null)
+    public function __construct(SplFileObject $file)
     {
         $this->file = $file;
-        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ContextElementInterface $element): void
+    public function load($key, $value): void
     {
-        $bytes = $this->file->fwrite($element->getData());
-        $this->logger->debug(
-            'Write to file',
-            [
-            'id' => $element->getId(),
-            'data' => $element->getData(),
-            'filename' => $this->file->getBasename(),
-            'bytes' => $bytes
-            ]
-        );
+        $this->file->fwrite($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function flush(): void
+    {
+        return;
     }
 }

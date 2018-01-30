@@ -2,9 +2,7 @@
 
 namespace BenTools\ETL\Loader;
 
-use BenTools\ETL\Context\ContextElementInterface;
-
-class ArrayLoader implements LoaderInterface
+final class ArrayLoader implements LoaderInterface
 {
 
     /**
@@ -23,18 +21,26 @@ class ArrayLoader implements LoaderInterface
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
-    public function getArray()
+    public function load($key, $value): void
     {
-        return $this->array;
+        $this->array[$key] = $value;
     }
 
     /**
      * @inheritDoc
      */
-    public function __invoke(ContextElementInterface $element): void
+    public function flush(): void
     {
-        $this->array[$element->getId()] = $element->getData();
+        return;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArray()
+    {
+        return $this->array;
     }
 }

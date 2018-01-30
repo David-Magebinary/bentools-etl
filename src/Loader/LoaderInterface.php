@@ -2,15 +2,19 @@
 
 namespace BenTools\ETL\Loader;
 
-use BenTools\ETL\Context\ContextElementInterface;
-
 interface LoaderInterface
 {
 
     /**
-     * Loads the element into the persistence layer (ORM, file, HTTP, ...)
+     * Load or pre-load elements.
      *
-     * @param ContextElementInterface $element
+     * @param $key
+     * @param $value
      */
-    public function __invoke(ContextElementInterface $element): void;
+    public function load($key, $value): void;
+
+    /**
+     * Flush elements.
+     */
+    public function flush(): void;
 }

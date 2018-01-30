@@ -2,7 +2,7 @@
 
 namespace BenTools\ETL\Loader;
 
-class DebugLoader extends ArrayLoader implements FlushableLoaderInterface
+final class DebugLoader implements LoaderInterface
 {
     /**
      * @var callable
@@ -10,20 +10,31 @@ class DebugLoader extends ArrayLoader implements FlushableLoaderInterface
     private $debugFn;
 
     /**
+     * @var bool
+     */
+    private $flush;
+
+    private $tmp = [];
+
+    /**
      * @inheritDoc
      */
-    public function __construct(array $array = [], $debugFn = 'var_dump')
+    public function __construct($debugFn = 'dump', bool $flush = false)
     {
-        parent::__construct($array);
         $this->debugFn = $debugFn;
+        $this->flush = $flush;
     }
 
     /**
      * @inheritDoc
      */
-    public function shouldFlushAfterLoad(): bool
+    public function load($key, $value): void
     {
-        return false;
+        if (true === $this->flush) {
+            $this->tmp[] = $value;
+        } else {
+            call_user_func($this->debugFn, $value);
+        }
     }
 
     /**
@@ -31,10 +42,11 @@ class DebugLoader extends ArrayLoader implements FlushableLoaderInterface
      */
     public function flush(): void
     {
-        $debugFn = $this->debugFn;
-        if (!is_callable($debugFn)) {
-            throw new \RuntimeException("The debug function is not callable");
+        if (true === $this->flush) {
+            foreach ($this->tmp as $value) {
+                call_user_func($this->debugFn, $value);
+            }
+            $this->tmp = [];
         }
-        $debugFn($this->array);
     }
 }

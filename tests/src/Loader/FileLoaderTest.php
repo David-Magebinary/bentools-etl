@@ -16,11 +16,12 @@ class FileLoaderTest extends TestCase
             'foo' => 'bar',
             'bar' => 'baz'
         ];
-        $extractor = new IncrementorExtractor();
         $file      = new SplTempFileObject();
         $loader    = new FileLoader($file);
-        $run       = new ETLRunner();
-        $run($items, $extractor, null, $loader);
+
+        foreach ($items as $key => $value) {
+            $loader->load($key, $value);
+        }
 
         $file->rewind();
         $this->assertEquals(implode('', [

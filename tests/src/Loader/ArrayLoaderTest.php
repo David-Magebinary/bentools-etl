@@ -17,10 +17,10 @@ class ArrayLoaderTest extends TestCase
             'foo' => 'bar',
             'bar' => 'baz'
         ];
-        $extractor = new KeyValueExtractor();
         $loader = new ArrayLoader();
-        $run = new ETLRunner();
-        $run($items, $extractor, null, $loader);
-        $this->assertEquals($loader->getArray(), $items);
+        foreach ($items as $key => $value) {
+            $loader->load($key, $value);
+        }
+        $this->assertEquals($items, $loader->getArray());
     }
 }

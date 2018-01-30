@@ -15,50 +15,27 @@ use SplTempFileObject;
 class CsvFileLoaderTest extends TestCase
 {
 
-    public function testLoader()
+    public function testLoaderWithoutKeys()
     {
-        $keys        = ['country', 'name'];
-        $items       = new JsonIterator(file_get_contents(TestSuite::getDataFile('dictators.json')));
-        $extractor   = new IncrementorExtractor();
-        $transformer = function (ContextElementInterface $element) {
-            $data = array_values($element->getData());
-            $element->setData($data);
-        };
-        $output      = new SplTempFileObject();
-        $loader      = new CsvFileLoader($output, null, ',', '"', '\\', $keys);
-        $run         = new ETLRunner();
-        $run($items, $extractor, $transformer, $loader);
+        $file = new SplTempFileObject();
+        $loader = new CsvFileLoader($file, '|');
+        $data = [
+            ['Bill', 'Clinton'],
+            ['Richard', 'Nixon'],
+        ];
 
-        $compared = file_get_contents(TestSuite::getDataFile('dictators.csv'));
+        foreach ($data as $key => $value) {
+            $loader->load($key, $value);
+        }
 
-        $output->rewind();
-        $generated = implode(null, iterator_to_array($output));
-        $this->assertSame($compared, $generated);
-    }
+        $file->rewind();
 
-    public function testKeys()
-    {
-        // Test constructor
-        $keys   = ['country', 'name'];
-        $output = new SplTempFileObject();
-        $loader = new CsvFileLoader($output, null, ',', '"', '\\', $keys);
-        $this->assertEquals(['country', 'name'], $loader->getKeys());
+        $expected = [
+            'Bill|Clinton' . PHP_EOL,
+            'Richard|Nixon' . PHP_EOL,
+            '',
+        ];
+        $this->assertEquals($expected, iterator_to_array($file));
 
-        // Test setter
-        $loader = $loader->setKeys(['foo', 'bar']);
-        $this->assertInstanceOf(CsvFileLoader::class, $loader);
-        $this->assertEquals(['foo', 'bar'], $loader->getKeys());
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testSetKeysTooLate()
-    {
-
-        $output = new SplTempFileObject();
-        $loader = new CsvFileLoader($output);
-        $loader(new ContextElement('foo', ['bar', 'baz']));
-        $loader->setKeys(['key1', 'key2']);
     }
 }

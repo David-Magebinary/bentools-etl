@@ -2,17 +2,12 @@
 
 namespace BenTools\ETL\Extractor;
 
-use BenTools\ETL\Context\ContextElementInterface;
-
 interface ExtractorInterface
 {
 
     /**
-     * Creates a context element.
-     *
-     * @param  $key
-     * @param  $value
-     * @return ContextElementInterface
+     * @param $json
+     * @return iterable
      */
-    public function __invoke($key, $value): ContextElementInterface;
+    public function extract($input): iterable;
 }

@@ -4,7 +4,7 @@ namespace BenTools\ETL\Iterator;
 
 use IteratorAggregate;
 
-class TextLinesIterator implements IteratorAggregate, StringIteratorInterface
+final class TextLinesIterator implements IteratorAggregate, StringIteratorInterface
 {
     /**
      * @var string

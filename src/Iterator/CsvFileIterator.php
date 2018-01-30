@@ -5,7 +5,7 @@ namespace BenTools\ETL\Iterator;
 use FilterIterator;
 use SplFileObject;
 
-class CsvFileIterator extends FilterIterator implements CsvIteratorInterface, \Countable
+final class CsvFileIterator extends FilterIterator implements CsvIteratorInterface, \Countable
 {
 
     private $nbLines;
