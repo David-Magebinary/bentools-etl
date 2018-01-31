@@ -39,8 +39,16 @@ final class ArrayLoader implements LoaderInterface
     /**
      * @return array
      */
-    public function getArray()
+    public function getArray(): array
     {
         return $this->array;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArrayValues(): array
+    {
+        return array_values($this->array);
     }
 }

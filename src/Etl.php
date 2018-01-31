@@ -86,7 +86,7 @@ final class Etl
      * @param int                       $flushEvery
      * @throws \InvalidArgumentException
      */
-    protected function __construct(
+    public function __construct(
         ExtractorInterface $extractor = null,
         TransformerInterface $transformer = null,
         LoaderInterface $loader = null,
