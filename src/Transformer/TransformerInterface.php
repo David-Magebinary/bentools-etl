@@ -10,6 +10,7 @@ interface TransformerInterface
      *
      * @param $key
      * @param $value
+     * @return mixed - The transformed value
      */
-    public function transform(&$key, &$value): void;
+    public function transform($key, $value);
 }

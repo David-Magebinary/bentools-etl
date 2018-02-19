@@ -20,9 +20,9 @@ final class CallableTransformer implements TransformerInterface
     /**
      * @inheritDoc
      */
-    public function transform(&$key, &$value): void
+    public function transform($key, $value)
     {
         $call = $this->callable;
-        $call($key, $value);
+        return $call($key, $value);
     }
 }

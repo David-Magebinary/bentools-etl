@@ -18,9 +18,12 @@ final class CallableValueTransformer implements TransformerInterface
         $this->callable = $callable;
     }
 
-    public function transform(&$key, &$value): void
+    /**
+     * @inheritdoc
+     */
+    public function transform($key, $value)
     {
         $call = $this->callable;
-        $value = $call($value);
+        return $call($value);
     }
 }

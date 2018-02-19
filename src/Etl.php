@@ -230,7 +230,7 @@ final class Etl
 
             // Transform data
             try {
-                $transformer->transform($key, $value);
+                $value = $transformer->transform($key, $value);
                 $this->dispatch(self::ON_TRANSFORM, $key, $value, $this);
             } catch (\Throwable $exception) {
                 $exception = new TransformException($exception, $key, $value);
