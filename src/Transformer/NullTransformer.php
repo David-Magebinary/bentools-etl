@@ -7,7 +7,7 @@ class NullTransformer implements TransformerInterface
     /**
      * @inheritDoc
      */
-    public function transform($key, $value)
+    public function transform($value)
     {
         return $value;
     }

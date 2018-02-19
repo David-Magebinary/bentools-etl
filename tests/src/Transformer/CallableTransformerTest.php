@@ -10,17 +10,10 @@ class CallableTransformerTest extends TestCase
 
     public function testTransform()
     {
-
-        $items = ['123e4567-e89b-12d3-a456-426655440000' => 'CAPS ARE HELL'];
-        $transform = new CallableTransformer(function ($key, &$value) {
-            return strtolower($value);
-        });
-
-        foreach ($items as $key => $item) {
-            $item = $transform->transform($key, $item);
-            $this->assertSame('123e4567-e89b-12d3-a456-426655440000', $key);
-            $this->assertSame('caps are hell', $item);
-        }
+        $item = 'CAPS ARE HELL';
+        $transform = new CallableTransformer('strtolower');
+        $item = $transform->transform($item);
+        $this->assertSame('caps are hell', $item);
 
     }
 }

@@ -8,7 +8,6 @@ interface LoaderInterface
     /**
      * Load or pre-load elements.
      *
-     * @param $key
      * @param $value
      */
     public function load($key, $value): void;

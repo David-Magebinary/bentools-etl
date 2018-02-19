@@ -4,7 +4,7 @@ namespace BenTools\ETL\Tests;
 
 use BenTools\ETL\Etl;
 use BenTools\ETL\Loader\ArrayLoader;
-use BenTools\ETL\Transformer\CallableValueTransformer;
+use BenTools\ETL\Transformer\CallableTransformer;
 use PHPUnit\Framework\TestCase;
 
 class EtlTest extends TestCase
@@ -15,7 +15,7 @@ class EtlTest extends TestCase
         $loader = new ArrayLoader();
         $etl = Etl::create()
             ->withLoader($loader)
-            ->withTransformer(new CallableValueTransformer('strtoupper'))
+            ->withTransformer(new CallableTransformer('strtoupper'))
         ;
         $data = [
             'foo',
